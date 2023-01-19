@@ -1,0 +1,43 @@
+<div class="mb-4">
+    <label class="block text-gray-700 text-sm font-bold mb-2" for="{{ field.id_for_label }}">
+        {{ field.label|title }}
+    </label>
+    {% if field.field.widget.input_type == "select" %}
+        <select required
+                class="border-2 border-gray-200 rounded w-full py-2 px-4 focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                id="{{ field.id_for_label }}"
+                type="{{ field.field.widget.input_type }}" name="{{ field.html_name }}">
+            {% for choice in field.field.choices %}
+                {% if forloop.first %}
+                    <option class="font-extralight" value="" disabled selected>{{ field.label|title }}...</option>
+                {% else %}
+                    <option class="dropdown-item" value="{{ choice.0 }}"
+                            {% if field.value %}
+                                {% if choice.0 == field.value %}
+                            selected
+                                {% else %}
+                            disabled
+                                {% endif %}
+                            {% endif %}
+                    >{{ choice.1 }}
+
+                    </option>
+                {% endif %}
+            {% endfor %}
+            >
+        </select>
+
+    {% else %}
+        <input required
+               class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring"
+               id="{{ field.id_for_label }}"
+               type="{{ field.field.widget.input_type }}"
+               name="{{ field.html_name }}"
+               {% if placeholder %}placeholder="{{ placeholder }}"{% endif %}
+                {% if field.value %}
+               value="{{ field.value }}"
+               readonly
+                {% endif %}
+        >
+    {% endif %}
+</div>

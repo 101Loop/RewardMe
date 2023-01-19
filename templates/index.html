@@ -1,0 +1,81 @@
+{% extends "_base.html" %}
+{% load static %}
+
+{% block head_title %}Home{% endblock %}
+
+{% block content %}
+    <div class="w-full max-w-xs mx-auto">
+        <form class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 border border-blue-300"
+              method="POST">
+            {% csrf_token %}
+            <h1 class="font-bold text-xl mb-2 text-center">Reward Me!</h1>
+            <div class="mb-4">
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="id_login">
+                    Mobile Number
+                </label>
+                <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring"
+                       type="tel"
+                       name="username"
+                       id="id_login"
+                       pattern="[6789][0-9]{9}"
+                       maxlength="10"
+                       type="text"
+                       placeholder="Mobile Number" required autofocus
+                       oninvalid="this.setCustomValidity('Please enter valid phone number')"
+                       onchange="try{setCustomValidity('')}catch(e){}"
+                        {% if mobile %}
+                       value="{{ mobile }}"
+                        {% endif %}
+                >
+                <br><br>
+                {% include "specific_field.html" with field=form.product_type %}
+                {% include "specific_field.html" with field=form.invoice_amount %}
+            </div>
+            <label class="text-gray-700 text-sm font-bold mb-2" for="redeem_points">
+                <input
+                class="ml-3"
+                        type="checkbox"
+                        id="redeem_points"
+                        name="redeem_points"
+                        value="redeem_points"
+                        {% if redeem_points %}
+                        checked
+                        {% endif %}
+                >
+                Redeem Points
+            </label>
+            <br><br>
+
+            {% if submit_otp %}
+                <div class="mb-6">
+                    <label class="block text-gray-700 text-sm font-bold mb-2" for="id_otp">
+                        OTP
+                    </label>
+                    <label for="id_otp"></label>
+                    <input
+                            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:ring"
+                            type="text" name="otp" minlength="6" maxlength="6" id="id_otp" placeholder="OTP" required
+                            oninvalid="this.setCustomValidity('Please enter valid OTP')"
+                            onchange="try{setCustomValidity('')}catch(e){}"
+                    >
+                </div>
+                {% if form.errors %}
+                    {% for error in form.non_field_errors %}
+                        <p class="text-red-500 text-xs italic mt-8">{{ error }}</p>
+                    {% endfor %}
+                {% endif %}
+            {% endif %}
+
+            <div class="flex justify-center items-center">
+                <button class="bg-blue-700 hover:bg-blue-500 text-white font-bold py-2 px-4 mt-3 rounded focus:outline-none focus:ring"
+                        type="submit">
+                    {% if submit_otp %}
+                        Submit OTP
+                    {% else %}
+                        Login
+                    {% endif %}
+                </button>
+            </div>
+        </form>
+    </div>
+{% endblock %}

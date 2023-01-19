@@ -1,0 +1,40 @@
+{% extends "_base.html" %}
+{% load static %}
+
+{% block head_title %}Transactions{% endblock %}
+
+{% block content %}
+    {% if not 'user_id' in request.session %}
+        {% include "invalid_page.html" %}
+    {% else %}
+
+        <div class="w-full max-w-xs mx-auto">
+            <p class="text-gray-700 text-xl mb-4 text-center">
+                Spend more to earn more.</p>
+
+
+            <form class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 border border-blue-300"
+                  method="POST">
+                {% csrf_token %}
+                <h1 class="font-bold text-xl mb-2 text-center">Transaction Form</h1>
+
+                {% include "fields.html" with field=form.product_type autofocus=True value=product_type %}
+                {% include "fields.html" with field=form.invoice_amount %}
+                {% include "fields.html" with field=form.payment_amount %}
+                {% include "fields.html" with field=form.payment_type %}
+                {% include "fields.html" with field=form.note %}
+                <div class="flex items-center justify-center">
+                    <button class="bg-blue-700 hover:bg-blue-500 text-white font-bold py-2 px-4 rounded focus:outline-none focus:ring"
+                            type="submit">
+                        Submit Transaction
+                    </button>
+                </div>
+                {% if form.errors %}
+                    {% for error in form.non_field_errors %}
+                        <p class="text-red-500 text-xs italic mt-4">{{ error }}</p>
+                    {% endfor %}
+                {% endif %}
+            </form>
+        </div>
+    {% endif %}
+{% endblock content %}

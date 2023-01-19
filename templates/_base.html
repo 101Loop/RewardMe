@@ -1,0 +1,45 @@
+{% load compress static django_htmx %}
+
+<!DOCTYPE html>
+<html lang="en-US" class="bg-white subpixel-antialiased">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block head_title %}{% endblock %} &ndash; Reward Me</title>
+
+    {% compress css %}
+        <link rel="stylesheet" href="{% static 'src/output.css' %}">
+    {% endcompress %}
+</head>
+<body class="min-h-screen flex flex-col">
+{% block navigation %}
+{% endblock navigation %}
+<main class="{% block main_css_classes %}container mx-auto p-8 grow print:max-w-none{% endblock main_css_classes %}">
+    {% if messages %}
+        <ul class="flex flex-row justify-center mx-4 -mt-4 mb-4 w-full">
+            {% for message in messages %}
+                {% block message_block %}
+                    <li class="bg-yellow-200 border border-yellow-300 text-blue-900 p-4 mx-2 rounded-lg shadow-sm">{{ message }}</li>
+                {% endblock %}
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+    {% block content %}{% endblock content %}
+</main>
+{% block footer %}
+{% endblock footer %}
+<!-- new -->
+{% compress js %}
+    <script type="text/javascript" src="{% static 'src/htmx.min.js' %}" defer></script>
+{% endcompress %}
+<!-- new -->
+<script>
+    document.body.addEventListener('htmx:configRequest', (event) => {
+        event.detail.headers['X-CSRFToken'] = '{{ csrf_token }}';
+    })
+</script>
+
+</body>
+</html>

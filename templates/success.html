@@ -1,0 +1,19 @@
+{% extends "_base.html" %}
+
+{% block head_title %}Success{% endblock %}
+
+{% block content %}
+    <div class="max-w-xl mx-auto">
+        <h1 class="font-extralight text-2xl text-blue-900 mb-8">
+            Success
+        </h1>
+
+        <p class="font-extralight text-base text-gray-800 mb-2">
+            Transaction Created Successfully. <b>Remaining Points Balance: {{ points }}</b>
+        </p>
+        <br><br>
+        <a href="{% url "transactions:index" %}" class="font-extralight text-base text-blue-900 mb-2">
+            Back to Login
+        </a>
+    </div>
+{% endblock content %}

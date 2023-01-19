@@ -1,0 +1,6 @@
+- Refactor views
+- Add tests
+- Button to resend otp
+- 3 Failed attempts and block user for 24 hours.
+- Throttle OTP generation
+- OTP support via third party services
