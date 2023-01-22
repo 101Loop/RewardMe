@@ -4,3 +4,4 @@
 - 3 Failed attempts and block user for 24 hours.
 - Throttle OTP generation
 - OTP support via third party services
+- Support multiple offers with expiry and use the latest offer to give points

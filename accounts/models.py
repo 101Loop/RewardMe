@@ -40,6 +40,8 @@ class User(TimeStampedModel, AbstractBaseUser, PermissionsMixin):
     class Meta:
         verbose_name = _("User")
         verbose_name_plural = _("Users")
+        ordering = ("-created_at",)
+        indexes = [models.Index(fields=["username"])]
 
 
 class OTPValidation(TimeStampedModel):
@@ -52,7 +54,6 @@ class OTPValidation(TimeStampedModel):
     destination = models.CharField(
         verbose_name=_("OTP Generated For"),
         max_length=10,
-        db_index=True,
         unique=True,
     )
     is_validated = models.BooleanField(default=False)
@@ -63,6 +64,12 @@ class OTPValidation(TimeStampedModel):
 
     def __str__(self):
         return self.destination
+
+    class Meta:
+        ordering = ["-created_at"]
+        verbose_name = _("OTP Validation")
+        verbose_name_plural = _("OTP Validations")
+        indexes = [models.Index(fields=["destination"])]
 
     def generate_otp(self, length=6, valid_secs=600) -> None:
         """

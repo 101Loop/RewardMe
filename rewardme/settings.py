@@ -62,6 +62,7 @@ THIRD_PARTY_APPS = [
     "rest_framework",
     "django_extensions",
     "simple_history",
+    "flags",
 ]
 
 
@@ -144,7 +145,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = "en-us"
 
-TIME_ZONE = "UTC"
+TIME_ZONE = "Asia/Kolkata"
 
 USE_I18N = True
 
@@ -175,3 +176,23 @@ SMS_BACKEND = "sms.backends.console.SmsBackend"
 # Simple History
 SIMPLE_HISTORY_HISTORY_ID_USE_UUID = True
 SIMPLE_HISTORY_HISTORY_CHANGE_REASON_USE_TEXT_FIELD = True
+
+# Flags
+FLAG_SOURCES = (
+    "core.flags.FlagSources",
+    "flags.sources.SettingsFlagsSource",
+    "flags.sources.DatabaseFlagsSource",
+)
+
+# Sentry
+if USE_SENTRY := env.bool('USE_SENTRY', default=False):
+    import sentry_sdk
+    from sentry_sdk.integrations.django import DjangoIntegration
+
+    sentry_sdk.init(
+        dsn=env('SENTRY_DSN'),
+        integrations=[DjangoIntegration()],
+        traces_sample_rate=env.float('SENTRY_TRACES_SAMPLE_RATE', default=0.1),
+        send_default_pii=True,
+        release=env('SENTRY_RELEASE'),
+    )

@@ -18,6 +18,8 @@ class RewardPoints(TimeStampedModel):
     class Meta:
         verbose_name = _("Reward Point")
         verbose_name_plural = _("Reward Points")
+        ordering = ["-created_at"]
+        indexes = [models.Index(fields=["points"])]
 
     def __str__(self):
         return f"{self.user} - {self.points}"
@@ -45,6 +47,4 @@ class Transaction(TimeStampedModel):
     class Meta:
         verbose_name = _("Transaction")
         verbose_name_plural = _("Transactions")
-
-    def calculate_reward_points(self):
-        pass
+        ordering = ["-created_at"]
