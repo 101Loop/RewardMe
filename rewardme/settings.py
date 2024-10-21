@@ -10,7 +10,6 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
-
 import os
 from pathlib import Path
 
@@ -28,16 +27,16 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
 # Take environment variables from .env file
-environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
+environ.Env.read_env(os.path.join(BASE_DIR, ".env"))
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = env('SECRET_KEY')
+SECRET_KEY = env("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = env('DEBUG')
+DEBUG = env("DEBUG")
 
-ALLOWED_HOSTS = env.list('ALLOWED_HOSTS')
-CSRF_TRUSTED_ORIGINS = env.list('CSRF_TRUSTED_ORIGINS')
+ALLOWED_HOSTS = env.list("ALLOWED_HOSTS")
+CSRF_TRUSTED_ORIGINS = env.list("CSRF_TRUSTED_ORIGINS")
 
 # Application definition
 
@@ -100,7 +99,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "rewardme.wsgi.application"
 
-if USE_SQLITE := env('USE_SQLITE'):
+if USE_SQLITE := env("USE_SQLITE"):
     DATABASES = {
         "default": {
             "ENGINE": "django.db.backends.sqlite3",
@@ -110,7 +109,7 @@ if USE_SQLITE := env('USE_SQLITE'):
 else:
     DATABASES = {
         "default": {
-            'ENGINE': 'django.db.backends.postgresql',
+            "ENGINE": "django.db.backends.postgresql",
             "NAME": env("DB_NAME"),
             "USER": env("DB_USER"),
             "PASSWORD": env("DB_PASSWORD"),
@@ -159,9 +158,9 @@ COMPRESS_ROOT = BASE_DIR / "static"
 STATIC_ROOT = BASE_DIR / "staticfiles"
 COMPRESS_ENABLED = True
 STATICFILES_FINDERS = (
-    'django.contrib.staticfiles.finders.FileSystemFinder',
-    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
-    'compressor.finders.CompressorFinder',
+    "django.contrib.staticfiles.finders.FileSystemFinder",
+    "django.contrib.staticfiles.finders.AppDirectoriesFinder",
+    "compressor.finders.CompressorFinder",
 )
 
 # Default primary key field type
@@ -185,14 +184,14 @@ FLAG_SOURCES = (
 )
 
 # Sentry
-if USE_SENTRY := env.bool('USE_SENTRY', default=False):
+if USE_SENTRY := env.bool("USE_SENTRY", default=False):
     import sentry_sdk
     from sentry_sdk.integrations.django import DjangoIntegration
 
     sentry_sdk.init(
-        dsn=env('SENTRY_DSN'),
+        dsn=env("SENTRY_DSN"),
         integrations=[DjangoIntegration()],
-        traces_sample_rate=env.float('SENTRY_TRACES_SAMPLE_RATE', default=0.1),
+        traces_sample_rate=env.float("SENTRY_TRACES_SAMPLE_RATE", default=0.1),
         send_default_pii=True,
-        release=env('SENTRY_RELEASE'),
+        release=env("SENTRY_RELEASE"),
     )

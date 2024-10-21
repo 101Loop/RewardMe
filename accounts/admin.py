@@ -16,4 +16,3 @@ class OTPValidationAdmin(admin.ModelAdmin):
     list_display = ("destination", "otp", "valid_until", "is_validated")
     list_filter = ("is_validated",)
     search_fields = ("destination",)
-
