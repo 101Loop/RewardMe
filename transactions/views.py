@@ -12,7 +12,6 @@ from core.flags import FlagSources
 from transactions.forms import TransactionForm
 from transactions.utils import index_render, handle_transaction, handle_otp, redirect_to_transaction_page
 
-
 # TODO: Refactor and add tests
 
 
